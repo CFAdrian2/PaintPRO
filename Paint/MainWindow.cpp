@@ -9,6 +9,8 @@
 
 #include <string>
 
+#include "storage/ViewStorage.h"
+
 MainWindow::MainWindow(QWidget* parent)
 	: QMainWindow(parent)
 {
@@ -23,6 +25,8 @@ MainWindow::MainWindow(QWidget* parent)
 void MainWindow::initView()
 {
 	_view = new PaintView(this);
+	_view->setRenderHint(QPainter::Antialiasing);
+	_view->setRenderHint(QPainter::SmoothPixmapTransform);
 	this->setCentralWidget(_view);
 }
 
@@ -95,6 +99,16 @@ void MainWindow::initTopToolBar()
 	_topToolBar->setIconSize(QSize(10, 10));
 	this->addToolBar(Qt::TopToolBarArea, _topToolBar);
 
+	_saveFileAction = new QAction("Save", this);
+	_loadFileAction = new QAction("Load", this);
+	_topToolBar->addAction(_saveFileAction);
+	_topToolBar->addSeparator();
+	_topToolBar->addAction(_loadFileAction);
+	_topToolBar->addSeparator();
+
+	connect(_saveFileAction, &QAction::triggered, [this]() { saveView(); });
+	connect(_loadFileAction, &QAction::triggered, [this]() { openView(); });
+
 	_colorAction = new QAction(QIcon(":/MainWindow/icons/Transparent.png"), "Color", this);
 	_colorAction->setToolTip("Change color of the drawing item");
 	_topToolBar->addAction(_colorAction);
@@ -122,6 +136,30 @@ void MainWindow::initTopToolBar()
 
 	_topToolBar->addWidget(new QLabel("Line Thickness: ", this));
 	_topToolBar->addWidget(lineThicknessComboBox);
+}
+
+void MainWindow::saveView()
+{
+	QString filePath = QFileDialog::getSaveFileName(this, "Save scene", QDir::homePath(),
+		"JPG (*.jpg);;PNG (*.png)");
+
+	if (!filePath.isEmpty())
+	{
+		if (!ViewStorage::saveView(_view, filePath))
+		{
+			qDebug() << "Failed to save the view";
+		}
+	}
+}
+
+void MainWindow::openView()
+{
+	QString filePath = QFileDialog::getOpenFileName(this, "Open file", QDir::homePath(), "JPG (*.jpg);;PNG (*.png)");
+	
+	if (!filePath.isEmpty())
+	{
+		ViewStorage::openView(_view, filePath);
+	}
 }
 
 void MainWindow::onMouseMove(const QPointF& pos, const Qt::MouseButtons& /*buttons*/)

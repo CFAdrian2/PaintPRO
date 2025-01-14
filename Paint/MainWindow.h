@@ -22,6 +22,8 @@ protected slots:
 	void onColorSelected(const QColor& colors);
 	void onMouseMove(const QPointF& pos, const Qt::MouseButtons& buttons);
 	void onToolSelected(const ToolType type);
+	void saveView();
+	void openView();
 
 private:
 	void initView();
@@ -45,4 +47,7 @@ private:
 	QAction*			_ellipseAction;
 	QAction*			_triangleAction;
 	QAction*			_eraserAction;
+
+	QAction*			_saveFileAction;
+	QAction*			_loadFileAction;
 };
