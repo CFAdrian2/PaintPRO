@@ -6,12 +6,17 @@ class PaintView : public QGraphicsView
 {
 	Q_OBJECT
 public:
-						PaintView(QWidget* parent);
+							PaintView(QWidget* parent);
 
-	QGraphicsPathItem*	createPath(const QPainterPath& path);
-	QGraphicsItem*		itemAt(const QPointF& pos);
+	QGraphicsPathItem*		createPath(const QPainterPath& path);
+	QGraphicsLineItem*		createLine(const QLineF& line);
+	QGraphicsRectItem*		createRectangle(const QRectF& rectangle);
+	QGraphicsEllipseItem*	createEllipse(const QRectF& ellipse);
+	QGraphicsPolygonItem*	createTriangle(const QPolygonF& triangle);
+	QGraphicsItem*			itemAt(const QPointF& pos);
 
 public slots:
+	void	onActionLineThicknessTriggered(const QString& lineThickness);
 	void	onColorSelected(const QColor& color);
 
 signals:

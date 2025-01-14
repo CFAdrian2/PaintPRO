@@ -7,8 +7,8 @@
 #include "ui_MainWindow.h"
 
 #include "PaintView.h"
-#include "PaintController.h"
-#include "Pen.h"
+#include "controllers/PaintController.h"
+#include "tools/Tool.h"
 
 class MainWindow : public QMainWindow
 {
@@ -17,23 +17,32 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
 protected slots:
 	void onColorSelected(const QColor& colors);
+	void onMouseMove(const QPointF& pos, const Qt::MouseButtons& buttons);
+	void onToolSelected(const ToolType type);
 
 private:
 	void initView();
 	void initController();
-	void initPen();
-		 
+	
+	void initLeftToolbar();
 	void initTopToolBar();
 
 private:
-    Ui::MainWindowClass ui;
-	PaintView* _view;
-	PaintController* _controller;
-	QAction* _colorAction;
-	Pen* _pen;
-	QToolBar* _topToolBar;
-	QColorDialog* _colorDialog;
-
+    Ui::MainWindowClass _ui;
+	PaintView*			_view;
+	PaintController*	_controller;
+	QToolBar*			_topToolBar;
+	QToolBar*			_leftToolBar;
+	QColorDialog*		_colorDialog;
+	QAction*			_colorAction;
+	QAction*			_lineAction;
+	QAction*			_penAction;
+	QAction*			_selectAction;
+	QAction*			_rectangleAction;
+	QAction*			_ellipseAction;
+	QAction*			_triangleAction;
+	QAction*			_eraserAction;
 };

@@ -1,7 +1,6 @@
 #include "PaintView.h"
 
 #include <QMouseEvent>'
-#include <qdebug.h>
 
 static const int	kWindowWidth = 1000;
 static const int	kWindowHeight = 1000;
@@ -21,6 +20,27 @@ QGraphicsPathItem* PaintView::createPath(const QPainterPath& path)
 	return _scene->addPath(path, _pen);
 }
 
+QGraphicsLineItem* PaintView::createLine(const QLineF& line)
+{
+	return _scene->addLine(line, _pen);
+}
+
+QGraphicsRectItem* PaintView::createRectangle(const QRectF& rectangle)
+{
+	return _scene->addRect(rectangle, _pen, _brush);
+}
+
+QGraphicsEllipseItem* PaintView::createEllipse(const QRectF& ellipse)
+{
+	return _scene->addEllipse(ellipse, _pen, _brush);
+}
+
+QGraphicsPolygonItem* PaintView::createTriangle(const QPolygonF& triangle)
+{
+	return _scene->addPolygon(triangle, _pen, _brush);
+}
+
+
 QGraphicsItem* PaintView::itemAt(const QPointF& pos)
 {
 	return _scene->itemAt(pos, QTransform());
@@ -28,9 +48,13 @@ QGraphicsItem* PaintView::itemAt(const QPointF& pos)
 
 void PaintView::onColorSelected(const QColor& color)
 {
-	qDebug() << "action Color triggered";
 	_pen.setColor(color);
 	_brush.setColor(color);
+}
+
+void PaintView::onActionLineThicknessTriggered(const QString& lineThickness)
+{
+	_pen.setWidth(lineThickness.toInt());
 }
 
 void PaintView::initScene()

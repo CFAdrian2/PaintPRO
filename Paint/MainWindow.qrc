@@ -1,4 +1,12 @@
 <RCC>
-    <qresource prefix="MainWindow">
+    <qresource prefix="/MainWindow">
+        <file>icons/Ellipse.png</file>
+        <file>icons/Eraser.png</file>
+        <file>icons/Line.png</file>
+        <file>icons/Pen.png</file>
+        <file>icons/Rectangle.png</file>
+        <file>icons/Select.png</file>
+        <file>icons/shape_triangle.png</file>
+        <file>icons/Transparent.png</file>
     </qresource>
 </RCC>
